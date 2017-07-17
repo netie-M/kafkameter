@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="3.1" jmeter="3.1 r1770033">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Kafka Producers" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1404169918000</longProp>
+        <longProp name="ThreadGroup.end_time">1404169918000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Message Counter" enabled="true">
+          <stringProp name="CounterConfig.start">0</stringProp>
+          <stringProp name="CounterConfig.end"></stringProp>
+          <stringProp name="CounterConfig.incr">1</stringProp>
+          <stringProp name="CounterConfig.name">message_count</stringProp>
+          <stringProp name="CounterConfig.format"></stringProp>
+          <boolProp name="CounterConfig.per_user">true</boolProp>
+        </CounterConfig>
+        <hashTree/>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="mobile" elementType="Argument">
+              <stringProp name="Argument.name">mobile</stringProp>
+              <stringProp name="Argument.value">1${__RandomString(1,358)}${__RandomString(9,0123456789)}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="name" elementType="Argument">
+              <stringProp name="Argument.name">name</stringProp>
+              <stringProp name="Argument.value">${__RandomString(1,李王张刘陈杨赵黄周吴徐孙胡朱高林何郭马罗)}${__RandomString(2,伟刚勇毅俊峰强军平保东文辉力明永健世广志义兴良海山仁波宁贵福生龙元全国胜学祥才发武新利清飞彬富顺信子杰涛昌成康星光天达安岩中茂进林有坚和彪博诚先敬震振壮会思群豪心邦承乐绍功松善厚庆磊民友裕河哲江超浩亮政谦亨奇固之轮翰朗伯宏言若鸣朋斌梁栋维启克伦翔旭鹏泽晨辰士以建家致树炎德行时泰盛雄琛钧冠策腾楠榕风航弘筠柔竹霭凝晓欢霄枫芸菲寒伊亚宜可姬舒影荔枝思丽秀娟英华慧巧美娜静淑惠珠翠雅芝玉萍红娥玲芬芳燕彩春菊勤珍贞莉兰凤洁梅琳素云莲真环雪荣爱妹霞香月莺媛 艳瑞凡佳嘉琼桂娣叶璧璐娅琦晶妍茜秋珊莎锦黛青倩婷姣婉娴瑾颖露瑶怡婵雁蓓纨仪荷丹蓉眉君琴蕊薇菁梦岚苑婕馨瑗琰韵融园艺咏卿聪澜纯毓悦昭冰爽琬茗羽希宁欣飘育滢馥)}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="生成身份证号码B" enabled="true">
+          <stringProp name="BeanShellSampler.query">${__split(310101|320102|330102|110101|120101,VAR,|)};
+var vareaCode = ${__RandomFromMultipleVars(VAR_1|VAR_2|VAR_3|VAR_4|VAR_5)};
+StringBuffer sb = new StringBuffer();
+sb.append(vareaCode);
+sb.append(${__Random(1950,2000)});
+var month = ${__Random(1,12)};
+if(month&lt;10){
+	sb.append(&quot;0&quot;);
+}
+sb.append(month);
+var day = ${__Random(1,28)};
+if(day&lt;10){
+	sb.append(&quot;0&quot;);
+}
+sb.append(day);
+sb.append(${__RandomString(3,0123456789)});
+String videntifyCode = sb.toString();
+
+int[] c = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+char[] r = { &apos;1&apos;, &apos;0&apos;, &apos;X&apos;, &apos;9&apos;, &apos;8&apos;, &apos;7&apos;, &apos;6&apos;, &apos;5&apos;, &apos;4&apos;, &apos;3&apos;, &apos;2&apos; };
+int[] n = new int[17];
+int result = 0;
+for (int i = 0; i &lt; n.length; i++) {
+	n[i] = videntifyCode.charAt(i);
+}
+for (int i = 0; i &lt; n.length; i++) {
+	result += c[i] * n[i];
+}
+videntifyCode += r[result % 11];
+log.info(&quot;videntifyCode:&quot;+videntifyCode);
+vars.put(&quot;idCard&quot;,videntifyCode);
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <co.signal.loadgen.LoadGenerator guiclass="TestBeanGUI" testclass="co.signal.loadgen.LoadGenerator" testname="Tagserve Load Generator" enabled="false">
+          <stringProp name="className">co.signal.loadgen.example.TagserveLoadGenerator</stringProp>
+          <stringProp name="fileName">C:\Users\yanyanmao\Desktop\test.txt</stringProp>
+          <stringProp name="variableName">message</stringProp>
+        </co.signal.loadgen.LoadGenerator>
+        <hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="false">
+          <stringProp name="delimiter">||</stringProp>
+          <stringProp name="fileEncoding">utf-8</stringProp>
+          <stringProp name="filename">C:\Users\yanyanmao\Desktop\test.txt</stringProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="variableNames">message</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="Kafka Request" enabled="true">
+          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="kafka_brokers" elementType="Argument">
+                <stringProp name="Argument.name">kafka_brokers</stringProp>
+                <stringProp name="Argument.value">SIT-SPARK-01:9092,SIT-SPARK-02:9092,SIT-SPARK-03:9092</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_topic" elementType="Argument">
+                <stringProp name="Argument.name">kafka_topic</stringProp>
+                <stringProp name="Argument.value">kafka_loan_in</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_key" elementType="Argument">
+                <stringProp name="Argument.name">kafka_key</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_message" elementType="Argument">
+                <stringProp name="Argument.name">kafka_message</stringProp>
+                <stringProp name="Argument.value">{&quot;dataKey&quot;:&quot;cobra&quot;,&quot;policyId&quot;:&quot;&quot;,&quot;data&quot;:{&quot;loanAppInfo&quot;:{&quot;productType&quot;:&quot;productCodeqyj&quot;,&quot;productCode&quot;:&quot;productCodeqyj-1-30&quot;,&quot;purpose&quot;:&quot;LoanPurposeBuy&quot;,&quot;appAmount&quot;:12000,&quot;acceptAmount&quot;:800,&quot;appCity&quot;:&quot;0668&quot;,&quot;loanAppTime&quot;:&quot;${__time(yyyy-MM-dd HH:mm:ss,)}&quot;,&quot;loanMaturity&quot;:&quot;30&quot;},&quot;personalInfo&quot;:{&quot;name&quot;:&quot;易借12&quot;,&quot;idCard&quot;:&quot;${idCard}&quot;,&quot;nameUsedBefore&quot;:&quot;&quot;,&quot;sex&quot;:&quot;genderF&quot;,&quot;age&quot;:22,&quot;maritalStatus&quot;:&quot;marrageSingle&quot;,&quot;educateLevel&quot;:&quot;educationC&quot;,&quot;residenceAddressCity&quot;:[&quot;440000&quot;,&quot;440900&quot;,&quot;440901&quot;,&quot;440902&quot;],&quot;residenceAddressDetails&quot;:&quot;2&quot;,&quot;permanentAddressCity&quot;:[&quot;440000&quot;,&quot;440900&quot;,&quot;440901&quot;,&quot;440902&quot;],&quot;permanentAddressDetails&quot;:&quot;2&quot;,&quot;houseStatus&quot;:&quot;TENEMENT&quot;,&quot;mobilePhone&quot;:&quot;${mobile}&quot;,&quot;telephone&quot;:&quot;&quot;,&quot;QQ&quot;:&quot;&quot;,&quot;WeChat&quot;:&quot;2&quot;,&quot;email&quot;:&quot;&quot;,&quot;supportNumber&quot;:0,&quot;childernNumber&quot;:0,&quot;quota&quot;:&quot;&quot;,&quot;usedMonth&quot;:&quot;&quot;},&quot;contactInfo&quot;:[{&quot;contactProperty&quot;:&quot;CONTACT_RELATIVE1&quot;,&quot;relation&quot;:&quot;relationshipRelPar&quot;,&quot;isKown&quot;:&quot;CONSTANTS_YES&quot;,&quot;name&quot;:&quot;王文&quot;,&quot;phone&quot;:&quot;${mobile}&quot;,&quot;jobTitle&quot;:&quot;&quot;,&quot;telephone&quot;:&quot;&quot;,&quot;familyAddressCity&quot;:[&quot;440000&quot;,&quot;440900&quot;,&quot;440901&quot;,&quot;440902&quot;],&quot;familyAddressDetails&quot;:&quot;5&quot;},{&quot;contactProperty&quot;:&quot;CONTACT_RELATIVE2&quot;,&quot;relation&quot;:&quot;relationshipRelPar&quot;,&quot;name&quot;:&quot;李莉莉&quot;,&quot;phone&quot;:&quot;${mobile}&quot;,&quot;telephone&quot;:&quot;&quot;,&quot;familyAddressCity&quot;:[&quot;440000&quot;,&quot;440900&quot;,&quot;440901&quot;,&quot;440902&quot;],&quot;familyAddressDetails&quot;:&quot;1&quot;},{&quot;contactProperty&quot;:&quot;CONTACT_RELATIVE3&quot;,&quot;relation&quot;:&quot;relationshipRelRel&quot;,&quot;name&quot;:&quot;1&quot;,&quot;phone&quot;:&quot;${mobile}&quot;,&quot;jobTitle&quot;:&quot;&quot;,&quot;telephone&quot;:&quot;&quot;},{&quot;contactProperty&quot;:&quot;CONTACT_JOB_CERT&quot;,&quot;relation&quot;:&quot;relationshipRelMat&quot;,&quot;name&quot;:&quot;1&quot;,&quot;dept&quot;:&quot;3&quot;,&quot;job&quot;:&quot;3&quot;,&quot;phone&quot;:&quot;${mobile}&quot;}],&quot;salesInfo&quot;:{&quot;customerManagerName&quot;:&quot;李二&quot;,&quot;customerManagerCode&quot;:&quot;20170618&quot;,&quot;customerServiceName&quot;:&quot;王小&quot;,&quot;customerServiceCode&quot;:&quot;20170689&quot;,&quot;isChannel&quot;:&quot;CONSTANTS_NO&quot;},&quot;images&quot;:[{&quot;loginUser&quot;:&quot;&quot;,&quot;fileName&quot;:&quot;Lighthouse.jpg&quot;,&quot;createTime&quot;:&quot;2017-05-25 14:32:55.142&quot;,&quot;imagePath&quot;:&quot;http://sit-qcredit-01:4323/fileViewer/fileViewer/getImage?id=107043&quot;,&quot;thumbImagePath&quot;:&quot;http://sit-qcredit-01:4323/fileViewer/fileViewer/getImage?id=107043&amp;picType=small&amp;picLoc=idc&quot;,&quot;userName&quot;:&quot;易借12&quot;,&quot;fileType&quot;:&quot;COBRA_QYJ_APPLYFORM&quot;,&quot;fileId&quot;:&quot;107043&quot;},{&quot;loginUser&quot;:&quot;&quot;,&quot;fileName&quot;:&quot;Chrysanthemum.jpg&quot;,&quot;createTime&quot;:&quot;2017-05-25 14:32:55.150&quot;,&quot;imagePath&quot;:&quot;http://sit-qcredit-01:4323/fileViewer/fileViewer/getImage?id=107044&quot;,&quot;thumbImagePath&quot;:&quot;http://sit-qcredit-01:4323/fileViewer/fileViewer/getImage?id=107044&amp;picType=small&amp;picLoc=idc&quot;,&quot;userName&quot;:&quot;易借12&quot;,&quot;fileType&quot;:&quot;COBRA_QYJ_IDENTIFICATION&quot;,&quot;fileId&quot;:&quot;107044&quot;},{&quot;loginUser&quot;:&quot;&quot;,&quot;fileName&quot;:&quot;Hydrangeas.jpg&quot;,&quot;createTime&quot;:&quot;2017-05-25 14:32:56.197&quot;,&quot;imagePath&quot;:&quot;http://sit-qcredit-01:4323/fileViewer/fileViewer/getImage?id=107045&quot;,&quot;thumbImagePath&quot;:&quot;http://sit-qcredit-01:4323/fileViewer/fileViewer/getImage?id=107045&amp;picType=small&amp;picLoc=idc&quot;,&quot;userName&quot;:&quot;易借12&quot;,&quot;fileType&quot;:&quot;COBRA_QYJ_CALL_DETAIL_LIST&quot;,&quot;fileId&quot;:&quot;107045&quot;}],&quot;employmentInfo&quot;:{&quot;companyName&quot;:&quot;6&quot;,&quot;industry&quot;:&quot;6&quot;,&quot;dept&quot;:&quot;6&quot;,&quot;duty&quot;:&quot;6&quot;,&quot;position&quot;:&quot;comPositionE&quot;,&quot;companyAddressCity&quot;:[&quot;440000&quot;,&quot;440900&quot;,&quot;440901&quot;,&quot;440902&quot;],&quot;companyAddressDetails&quot;:&quot;6&quot;,&quot;companyType&quot;:&quot;comTypeEE&quot;,&quot;tel&quot;:&quot;&quot;,&quot;hiredate&quot;:&quot;2017/09&quot;,&quot;commEmail&quot;:&quot;&quot;,&quot;monthlyIncome&quot;:3600,&quot;monthlyPaymentMethod&quot;:&quot;PUNCHCARD&quot;,&quot;monthlyPayDay&quot;:6},&quot;bankInfo&quot;:{&quot;bankCode&quot;:&quot;BOC&quot;,&quot;accountNum&quot;:&quot;62${__RandomString(14,0123456789)}&quot;,&quot;branchCity&quot;:[&quot;440000&quot;,&quot;440900&quot;],&quot;branchDetails&quot;:&quot;2&quot;,&quot;mobile&quot;:&quot;${mobile}&quot;,&quot;bankName&quot;:&quot;中国银行&quot;,&quot;bankId&quot;:&quot;104&quot;}},&quot;appId&quot;:&quot;${__time(yyyyMMddHHmmss,)}${__Random(100,1000,random)}&quot;,&quot;transactionId&quot;:&quot;&quot;,&quot;timestamp&quot;:&quot;${__time(yyyyMMddHHmmssSSS,)}&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_message_serializer" elementType="Argument">
+                <stringProp name="Argument.name">kafka_message_serializer</stringProp>
+                <stringProp name="Argument.value">org.apache.kafka.common.serialization.StringSerializer</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_key_serializer" elementType="Argument">
+                <stringProp name="Argument.name">kafka_key_serializer</stringProp>
+                <stringProp name="Argument.value">org.apache.kafka.common.serialization.StringSerializer</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_keystore" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_keystore</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_keystore_password" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_keystore_password</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_truststore" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_truststore</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_SSL_TRUSTSTORE}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_truststore_password" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_truststore_password</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_SSL_TRUSTSTORE_PASSWORD}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_use_ssl" elementType="Argument">
+                <stringProp name="Argument.name">kafka_use_ssl</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_USE_SSL}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_compression_type" elementType="Argument">
+                <stringProp name="Argument.name">kafka_compression_type</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_partition" elementType="Argument">
+                <stringProp name="Argument.name">kafka_partition</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="classname">co.signal.kafkameter.KafkaProducerSampler</stringProp>
+        </JavaSampler>
+        <hashTree/>
+        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="Java请求" enabled="false">
+          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="kafka_brokers" elementType="Argument">
+                <stringProp name="Argument.name">kafka_brokers</stringProp>
+                <stringProp name="Argument.value">172.16.36.89:9092</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_topic" elementType="Argument">
+                <stringProp name="Argument.name">kafka_topic</stringProp>
+                <stringProp name="Argument.value">test</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_key" elementType="Argument">
+                <stringProp name="Argument.name">kafka_key</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_message" elementType="Argument">
+                <stringProp name="Argument.name">kafka_message</stringProp>
+                <stringProp name="Argument.value">${idCard}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_message_serializer" elementType="Argument">
+                <stringProp name="Argument.name">kafka_message_serializer</stringProp>
+                <stringProp name="Argument.value">org.apache.kafka.common.serialization.StringSerializer</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_key_serializer" elementType="Argument">
+                <stringProp name="Argument.name">kafka_key_serializer</stringProp>
+                <stringProp name="Argument.value">org.apache.kafka.common.serialization.StringSerializer</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_keystore" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_keystore</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_keystore_password" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_keystore_password</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_truststore" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_truststore</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_truststore_password" elementType="Argument">
+                <stringProp name="Argument.name">kafka_ssl_truststore_password</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_use_ssl" elementType="Argument">
+                <stringProp name="Argument.name">kafka_use_ssl</stringProp>
+                <stringProp name="Argument.value">null</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_compression_type" elementType="Argument">
+                <stringProp name="Argument.name">kafka_compression_type</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="kafka_partition" elementType="Argument">
+                <stringProp name="Argument.name">kafka_partition</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="classname">co.signal.kafkameter.KafkaProducerSampler</stringProp>
+        </JavaSampler>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>true</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+            </value>
+          </objProp>
+          <stringProp name="fileName"></stringProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>true</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+            </value>
+          </objProp>
+          <stringProp name="fileName"></stringProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
